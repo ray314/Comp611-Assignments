@@ -5,4 +5,8 @@ public class Node<T extends Comparable<?>> {
     public Node(T data) {
         this.data = data;
     }
+
+    public String toString() {
+        return data.toString();
+    }
 }
