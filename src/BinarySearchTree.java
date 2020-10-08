@@ -1,5 +1,5 @@
 public class BinarySearchTree<T extends Comparable<T>> {
-    private Node<T> root;
+    protected Node<T> root;
 
     public void nodeDiscovered(Node<T> current) {
 
@@ -9,25 +9,38 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
     }
 
-    private Node<T> addRecursive(Node<T> current, T data) {
-        if (current == null) {
-            return new Node<T>(data);
-        }
+    public void insertedNode(Node<T> newNode) {
 
+    }
+
+    private Node<T> addRecursive(Node<T> current, Node<T> newNode) {
+        T data = newNode.data;
+        if (current == null) {
+            // Add new node
+            nodeDiscovered(newNode);
+            return newNode;
+        }
+        nodeDiscovered(current);
         if (data.compareTo(current.data) < 0) {
-            current.left = addRecursive(current.left, data);
+            current.left = addRecursive(current.left, newNode);
         } else if (data.compareTo(current.data) > 0) {
-            current.right = addRecursive(current.right, data);
+            current.right = addRecursive(current.right, newNode);
         } else {
             return current;
         }
-        nodeDiscovered(current);
+        
         return current;
     }
 
-    public void add(T data) {
-        root = addRecursive(root, data);
+    /**
+     * Adds a node to the tree and returns the new node
+     * @param data
+     */
+    public Node<T> add(T data) {
+        Node<T> newNode = new Node<>(data);
+        root = addRecursive(root, newNode);
         addNodeToList();
+        return newNode;
     }
 
     private boolean containsNodeRecursive(Node<T> current, T data) {
@@ -79,5 +92,9 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
     public void delete(T data) {
         root = deleteRecursive(root, data);
+    }
+
+    public Node<T> getRootNode() {
+        return root;
     }
 }

@@ -3,8 +3,8 @@ import java.util.List;
 
 public class PDS<T extends Comparable<T>> extends BinarySearchTree<T> {
 
-    private List<List<Node<T>>> list; // List for adding lists of nodes
-    private List<Node<T>> tempList; // Temporary list for adding nodes
+    protected List<List<Node<T>>> list; // List for adding lists of nodes
+    protected List<Node<T>> tempList; // Temporary list for adding nodes
 
     public PDS() {
         super();
@@ -22,10 +22,22 @@ public class PDS<T extends Comparable<T>> extends BinarySearchTree<T> {
 
     @Override
     /**
+     * When the algorithm has inserted a new node
+     */
+    public void insertedNode(Node<T> newNode) {
+        
+    }
+
+    @Override
+    /**
      * After adding all the nodes, add the temporary list to another list
      */
     public void addNodeToList() {
         list.add(tempList);
+        tempList = new LinkedList<>();
     }
     
+    public List<List<Node<T>>> getNodeList() {
+        return list;
+    }
 }
