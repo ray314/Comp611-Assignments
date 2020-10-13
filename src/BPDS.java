@@ -99,11 +99,47 @@ public class BPDS<T extends Comparable<T>> extends PDS<T> {
         Node<T> y = null;
         Node<T> zParent = getParentNode(z);
 
+        if (zParent == null) {
+            return;
+        }
+
         while (zParent.color == Node.RED) {
             if (zParent == getParentNode(zParent).left) {
                 y = getParentNode(zParent).right;
-                
+                if (y.color == Node.RED) {
+                    zParent.color = Node.BLACK;
+                    y.color = Node.BLACK;
+                    getParentNode(zParent).color = Node.RED;
+                    z = getParentNode(z);
+                } else {
+                    if (z == zParent.right) {
+                        z = zParent;
+                        leftRotate(z);
+                    }
+
+                    zParent.color = Node.BLACK;
+                    getParentNode(zParent).color = Node.RED;
+                    rightRotate(getParentNode(z));
+                } 
+            } else {
+                y = getParentNode(zParent).left;
+                if (y.color == Node.RED) {
+                    zParent.color = Node.BLACK;
+                    y.color = Node.BLACK;
+                    getParentNode(zParent).color = Node.RED;
+                    z = getParentNode(zParent);
+                } else {
+                    if (z == zParent.left) {
+                        z = zParent;
+                        rightRotate(z);
+                    }
+
+                    zParent.color = Node.BLACK;
+                    getParentNode(zParent).color = Node.RED;
+                    leftRotate(getParentNode(zParent));
+                }
             }
         }
+        root.color = Node.BLACK;
     }
 }
